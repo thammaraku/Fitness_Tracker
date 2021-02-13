@@ -1,42 +1,34 @@
 
 const express = require("express");
-const mongojs = require("mongojs");
+const mongoose = require("mongoose");
 const logger = require("morgan");
 
-const databaseUrl = "fitness";
-const collections = ["workouts"];
+const PORT = process.env.PORT || 3000;
 
-const db = mongojs(databaseUrl, collections);
+// const databaseUrl = "fitness";
+// const collections = ["workouts"];
+// const db = mongojs(databaseUrl, collections);
 
 const app = express();
 
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+// Static directory
 app.use(express.static("public"));
 
-db.on("error", error => {
-    console.log("Database Error:", error);
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { 
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
 });
 
-
-app.get("/api/workouts", (req, res) => {
-
-    db.workouts.findAll ({}, (error, data) => {
-
-        if (error) {
-            res.send(error);
-        } else {
-            res.send(data);
-        }
-    });
+// Routes
+app.use(require("./routes/api-routes"));
+app.use(require("./routes/html-routes"));
 
 
-});
-
-
-
-
-app.listen(3000, () => {
-    console.log("App running on http://localhost:3000");
+app.listen(PORT, () => {
+    console.log(`App running on http://localhost:${PORT}`);
 });
