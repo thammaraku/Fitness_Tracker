@@ -1,9 +1,15 @@
 let mongoose = require("mongoose");
-let db = require("../models");
 
-mongoose.connect("mongodb://localhost/workout", {
+// Bascially without define it will look for index.js
+// let db = require("../models");
+let db = require("../models/index.js");
+
+// mongoose.connect("mongodb://localhost/workout", {
+mongoose.connect("mongodb://localhost/workout_db", {
   useNewUrlParser: true,
-  useFindAndModify: false
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
 });
 
 let workoutSeed = [
