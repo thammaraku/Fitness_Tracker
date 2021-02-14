@@ -86,9 +86,11 @@ function validateInputs() {
     }
   }
 
+  // If user input is valid enable both buttons
   if (isValid) {
     completeButton.removeAttribute("disabled");
     addButton.removeAttribute("disabled");
+  // if invalid grey out both buttons
   } else {
     completeButton.setAttribute("disabled", true);
     addButton.setAttribute("disabled", true);
