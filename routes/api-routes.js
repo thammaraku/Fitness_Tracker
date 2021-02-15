@@ -7,8 +7,10 @@ const router = require("express").Router();
 router.get("/api/workouts", (req, res) => {
     db.Workout.find({}).then(dbWorkout => {
         // res.json(dbWorkout);
-
+        console.log(dbWorkout);
         dbWorkout.forEach(workout => {
+            // console.log("workout = " + workout);
+            console.log("workout.exercises = " + workout.exercises);
             var total = 0;
             workout.exercises.forEach(eachDuration => {
                 total += eachDuration.duration;
@@ -38,9 +40,9 @@ router.post("/api/workouts", (req, res) => {
 // addExercise request is sent through request parameter
 router.put("/api/workouts/:id", (req, res) => {
     db.Workout.findOneAndUpdate(
-        //filter
+        //filter argument
         { _id: req.params.id },
-        // update
+        // update argument
         {
             // inc operator to add duration
             $inc: { totalDuration: req.body.duration },
