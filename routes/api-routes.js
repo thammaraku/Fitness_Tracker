@@ -7,16 +7,17 @@ const router = require("express").Router();
 router.get("/api/workouts", (req, res) => {
     db.Workout.find({}).then(dbWorkout => {
         // res.json(dbWorkout);
-        console.log(dbWorkout);
+        // console.log(dbWorkout);
         dbWorkout.forEach(workout => {
             // console.log("workout = " + workout);
             console.log("workout.exercises = " + workout.exercises);
             var total = 0;
-            workout.exercises.forEach(eachDuration => {
-                total += eachDuration.duration;
+            workout.exercises.forEach(objProp => {
+                console.log("objProp = " + objProp);
+                total += objProp.duration;
+                console.log("total = " + total);
             });
             workout.totalDuration = total;
-
         });
 
         res.json(dbWorkout);
@@ -56,6 +57,16 @@ router.put("/api/workouts/:id", (req, res) => {
         });
 
 });
+
+// send to stat route
+router.get("/api/workouts/range", (req, res) => {
+
+    db.Workout.find({}).then(dbWorkout => {
+        res.json(dbWorkout);
+    }).catch(error => {
+        res.json(err);
+    })
+})
 
 module.exports = router;
 
