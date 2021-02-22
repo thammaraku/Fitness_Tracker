@@ -6,15 +6,13 @@ const router = require("express").Router();
 // get all workouts
 router.get("/api/workouts", (req, res) => {
     db.Workout.find({}).then(dbWorkout => {
-        // res.json(dbWorkout);
         // console.log(dbWorkout);
         dbWorkout.forEach(workout => {
-            // console.log("workout = " + workout);
-            // console.log("workout.exercises = " + workout.exercises);
+            console.log("workout.exercises = " + workout.exercises);
             var total = 0;
-            workout.exercises.forEach(objProp => {
-                console.log("objProp.duration = " + objProp.duration);
-                total += objProp.duration;
+            workout.exercises.forEach(exercise => {
+                console.log("exercise.duration = " + exercise.duration);
+                total += exercise.duration;
                 // console.log("total duration = " + total);
             });
             workout.totalDuration = total;
