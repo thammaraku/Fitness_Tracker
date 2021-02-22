@@ -10,12 +10,12 @@ router.get("/api/workouts", (req, res) => {
         // console.log(dbWorkout);
         dbWorkout.forEach(workout => {
             // console.log("workout = " + workout);
-            console.log("workout.exercises = " + workout.exercises);
+            // console.log("workout.exercises = " + workout.exercises);
             var total = 0;
             workout.exercises.forEach(objProp => {
-                console.log("objProp = " + objProp);
+                console.log("objProp.duration = " + objProp.duration);
                 total += objProp.duration;
-                console.log("total = " + total);
+                // console.log("total duration = " + total);
             });
             workout.totalDuration = total;
         });
@@ -28,7 +28,7 @@ router.get("/api/workouts", (req, res) => {
 });
 
 
-// createWorkout
+// createWorkout route on api.js
 router.post("/api/workouts", (req, res) => {
     db.Workout.create(req.body).then(dbWorkout => {
         res.json(dbWorkout);
@@ -51,6 +51,8 @@ router.put("/api/workouts/:id", (req, res) => {
             $push: { exercises: req.body }
         },
         { new: true }).then(dbWorkout => {
+            console.log("dbWorkout under id = " + dbWorkout)
+
             res.json(dbWorkout);
         }).catch(error => {
             res.json(err);
@@ -58,7 +60,7 @@ router.put("/api/workouts/:id", (req, res) => {
 
 });
 
-// send to stat route
+// send to stat route on api.js
 router.get("/api/workouts/range", (req, res) => {
 
     db.Workout.find({}).then(dbWorkout => {
